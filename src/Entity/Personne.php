@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PersonneRepository;
+use App\Validator\OnlyCharacterAndSpace;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,6 +20,7 @@ class Personne
     private $id;
 
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
+    #[OnlyCharacterAndSpace]
     #[Assert\Length(
         min: 2,
         max: 20,
@@ -31,6 +33,7 @@ class Personne
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $prenom;
 
+    #[Assert\Valid]
     #[ORM\OneToOne(targetEntity: Adresse::class, cascade: ['persist', 'remove'])]
     private $adresse;
 
