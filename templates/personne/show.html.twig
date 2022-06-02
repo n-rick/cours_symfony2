@@ -35,6 +35,7 @@
 				<th>Rue</th>
 				<th>Code Postal</th>
 				<th>Ville</th>
+				<th>Sports</th>
 				<th>Actions</th>
 			</tr>
 			{% for personne in personnes %}
@@ -46,14 +47,14 @@
 						<td>{{personne.adresse.rue}}</td>
 						<td>{{personne.adresse.codePostal}}</td>
 						<td>{{personne.adresse.ville}}</td>
-					{% else %}
-						<td>Rue inconnue</td>
-						<td>Code Postal inconnu</td>
-						<td>Ville inconnue</td>
+						<td>Non définie</td>
 					{% endif %}
-                    <td>Voir
-                    Ajouter
-                    Supprimer</td>
+					{% if personne.sports %}
+						{% for sport in personne.sports %}
+							<td>{{sport.name}}</td>
+						{% endfor %}
+					{% endif %}
+					<td>Voir Ajouter Supprimer</td>
 				</tr>
 			{% endfor %}
 

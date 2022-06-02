@@ -2,7 +2,10 @@
 
 {% block title %}Hello PersonneController!
 {% endblock %}
-
+{% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}
 {% block body %}
 	<style>
 		.example-wrapper {
@@ -39,8 +42,13 @@
 			{{ form_widget(form.prenom) }}
 		</div>
 	</div>
-	<div>
-		{{ form_rest(form) }}
-	</div>
+	{# <div>
+			<ul class="sports" data-prototype="{{ form_widget(form.sports.vars.prototype)|e('html_attr') }}"></ul>
+		</div> #}
 	{{ form_end(form) }}
+	<div>
+		<button>
+			<a href="{{ path('app_sport_new') }}">Ajouter un sport</a>
+		</button>
+	</div>
 </div>{% endblock %}
