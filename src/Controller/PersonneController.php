@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Personne;
 use App\Form\PersonneType;
+use App\Form\OnlyPersonneType;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,11 +29,24 @@ class PersonneController extends AbstractController
     {
         $personne = new Personne();
         $form = $this->createForm(PersonneType::class, $personne);
-        // $form = $this->createFormBuilder($personne)
-        //     ->add('name', TextType::class, array('required' => true))
-        //     ->add('last_name', TextType::class)
-        //     ->add('save', SubmitType::class, ['label' => 'Ajouter une personne'])
-        //     ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $personne = $form->getData();
+            $em->persist($personne);
+            $em->flush();
+            return $this->redirectToRoute("personne_show_all");
+        }
+        return $this->render('personne/add.html.twig', [
+            'controller_name' => 'PersonneController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route("/onlypersonne/add", name: "only_personne_add")]
+    function addFormOnly(Request $request, EntityManagerInterface $em)
+    {
+        $personne = new Personne();
+        $form = $this->createForm(OnlyPersonneType::class, $personne);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $personne = $form->getData();

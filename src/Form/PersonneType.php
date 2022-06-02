@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Sport;
 use App\Entity\Personne;
+use App\Repository\SportRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,16 +23,15 @@ class PersonneType extends AbstractType
             ->add('nom', TextType::class, array('required' => true))
             ->add('prenom', TextType::class)
             ->add('adresse', AdresseType::class)
-            ->add('sports', EntityType::class, [
-                'class' => Sport::class,
-                'choice_label' => 'name',
-                'query_builder' => function (EntityRepository $repo) {
-                return $repo->createQueryBuilder('s');
-                },
-                'label' => 'Sports préférés',
-                'multiple' => true
-                ])
-                ->add('save', SubmitType::class, ['label' => 'Ajouter une personne']);
+            ->add('sports', ChoiceType::class, [
+                'choices' => [
+                    'Foot' => 'Foot',
+                    'Tennis' => 'Tennis',
+                    'Other' => null,
+                ],
+
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Ajouter une personne']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
