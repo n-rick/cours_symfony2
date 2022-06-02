@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\SportRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SportRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SportRepository::class)]
+#[UniqueEntity(fields: "name", message: "Ce sport existe déjà")]
 class Sport
 {
     #[ORM\Id]

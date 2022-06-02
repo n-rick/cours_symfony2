@@ -7,8 +7,10 @@ use App\Repository\PersonneRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
+#[UniqueEntity(fields: ["nom", "prenom"], message: "Les nom et prénom existent déjà")]
 class Personne
 {
     #[ORM\Id]
@@ -25,6 +27,7 @@ class Personne
     )]
     private $nom;
 
+    #[Assert\Regex('/^[A-Z]{1}[a-z ]{2,29}$/')]
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
     private $prenom;
 

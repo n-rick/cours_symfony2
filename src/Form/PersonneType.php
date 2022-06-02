@@ -36,7 +36,7 @@ class PersonneType extends AbstractType
                         'maxMessage' => "Votre nom doit contenir au plus {{ limit }} caract`eres",
                     ]),
                     new Type([
-                        'type' => '{"alpha", "digit"}',
+                        'type' =>  ['alpha', 'digit'],
                         'message' => "Votre nom {{ value }} doit contenir seulement {{ type }}."
                     ])
                 ]
