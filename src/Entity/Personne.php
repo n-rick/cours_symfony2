@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonneRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PersonneRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
 class Personne
@@ -16,6 +17,12 @@ class Personne
     private $id;
 
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 20,
+        minMessage: "Le nom doit contenir au moins {{ limit }} caractères",
+        maxMessage: "Le nom doit contenir au plus {{ limit }} caractères",
+    )]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 30, nullable: true)]

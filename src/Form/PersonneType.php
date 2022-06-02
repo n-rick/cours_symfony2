@@ -7,24 +7,40 @@ use App\Entity\Personne;
 use App\Form\AdresseType;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\SportRepository;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormEvent;
 
 class PersonneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, array('required' => true))
+            ->add('nom', TextType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Length([
+                        'min' => 3,
+                        'max' => 20,
+                        'minMessage' => "Votre nom doit contenir au moins {{ limit }} caract`eres",
+                        'maxMessage' => "Votre nom doit contenir au plus {{ limit }} caract`eres",
+                    ]),
+                    new Type([
+                        'type' => '{"alpha", "digit"}',
+                        'message' => "Votre nom {{ value }} doit contenir seulement {{ type }}."
+                    ])
+                ]
+            ])
             ->add('prenom', TextType::class)
             ->add('adresse', AdresseType::class)
             ->add('sports', EntityType::class, [
