@@ -32,15 +32,30 @@
 				<th>Id</th>
 				<th>Nom</th>
 				<th>Prénom</th>
+				<th>Rue</th>
+				<th>Code Postal</th>
+				<th>Ville</th>
+				<th>Actions</th>
 			</tr>
-            {% for personne in personnes %}
-
-			<tr>
-				<td>{{ personne.id }}</td>
-				<td>{{ personne.nom }}</td>
-				<td>{{ personne.prenom }}</td>
-			</tr>
-            {% endfor %}
+			{% for personne in personnes %}
+				<tr>
+					<td>{{ personne.id }}</td>
+					<td>{{ personne.nom }}</td>
+					<td>{{ personne.prenom }}</td>
+					{% if personne.adresse %}
+						<td>{{personne.adresse.rue}}</td>
+						<td>{{personne.adresse.codePostal}}</td>
+						<td>{{personne.adresse.ville}}</td>
+					{% else %}
+						<td>Rue inconnue</td>
+						<td>Code Postal inconnu</td>
+						<td>Ville inconnue</td>
+					{% endif %}
+                    <td>Voir
+                    Ajouter
+                    Supprimer</td>
+				</tr>
+			{% endfor %}
 
 		</table>
 
