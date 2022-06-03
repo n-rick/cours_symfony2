@@ -7,6 +7,7 @@ use App\Form\PersonneType;
 use App\Form\OnlyPersonneType;
 use App\Repository\PersonneRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+// #[IsGranted('ROLE_ADMIN')] # Restreindre l'accès à toutes les actions du controlleur.
 class PersonneController extends AbstractController
 {
     #[Route('/personne', name: 'app_personne')]
@@ -24,6 +26,7 @@ class PersonneController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')] # Restreindre l'accès à une action en particulier.
     #[Route("/personne/add", name: "personne_add")]
     function addForm(Request $request, EntityManagerInterface $em)
     {
